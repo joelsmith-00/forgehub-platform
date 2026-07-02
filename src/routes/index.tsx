@@ -21,6 +21,8 @@ import { Navbar } from "@/components/site/Navbar";
 import { Footer } from "@/components/site/Footer";
 import heroImg from "@/assets/hero-forge.jpg";
 import aboutImg from "@/assets/about-building.jpg";
+import { ROLE_LIST } from "@/lib/roles";
+import { Quote, Sparkles, MousePointerClick, UserPlus, Zap } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   head: () => ({
