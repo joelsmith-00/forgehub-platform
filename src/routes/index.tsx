@@ -189,7 +189,122 @@ function Landing() {
         </div>
       </section>
 
-      {/* ABOUT */}
+      {/* ROLE SELECTION */}
+      <section id="roles" className="relative overflow-hidden bg-ink py-24 text-ink-foreground">
+        <div className="pointer-events-none absolute inset-0 opacity-40" style={{
+          backgroundImage: "radial-gradient(circle at 15% 20%, oklch(0.68 0.22 40 / 0.35), transparent 40%), radial-gradient(circle at 85% 80%, oklch(0.55 0.18 30 / 0.3), transparent 45%)",
+        }} />
+        <div className="relative mx-auto max-w-7xl px-6">
+          <div className="text-center">
+            <p className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.2em] text-primary">
+              <Sparkles className="h-3.5 w-3.5" /> Built For Everyone On Campus
+            </p>
+            <h2 className="mt-3 text-4xl font-bold tracking-tight sm:text-5xl">
+              Choose Your <span className="text-flame-gradient">Journey</span>
+            </h2>
+            <p className="mx-auto mt-4 max-w-xl text-white/70">
+              Four tailored experiences. One connected platform. Pick the role that fits you and jump right in.
+            </p>
+          </div>
+
+          <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {ROLE_LIST.map((r) => {
+              const Icon = r.icon;
+              return (
+                <Link
+                  key={r.key}
+                  to="/login/$role"
+                  params={{ role: r.key }}
+                  className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] p-6 transition-all hover:-translate-y-1.5 hover:border-primary/40 hover:bg-white/[0.06]"
+                >
+                  <div className={`absolute -right-10 -top-10 h-32 w-32 rounded-full bg-gradient-to-br ${r.accent} opacity-20 blur-2xl transition-opacity group-hover:opacity-70`} />
+                  <div className={`relative grid h-14 w-14 place-items-center rounded-xl bg-gradient-to-br ${r.accent} text-white shadow-glow`}>
+                    <Icon className="h-6 w-6" />
+                  </div>
+                  <h3 className="relative mt-5 text-xl font-bold">{r.label}</h3>
+                  <p className="relative mt-1 text-xs uppercase tracking-wider text-primary/90">{r.tagline}</p>
+                  <p className="relative mt-4 text-sm leading-relaxed text-white/70">{r.description}</p>
+                  <div className="relative mt-6 inline-flex items-center gap-2 text-sm font-semibold text-primary">
+                    Get Started <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  </div>
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* HOW IT WORKS */}
+      <section className="bg-background py-24">
+        <div className="mx-auto max-w-7xl px-6">
+          <div className="text-center">
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-primary">How It Works</p>
+            <h2 className="mt-3 text-4xl font-bold tracking-tight">Get Started in 3 Simple Steps</h2>
+            <div className="mx-auto mt-4 h-0.5 w-16 bg-primary" />
+          </div>
+
+          <div className="relative mt-16 grid gap-8 md:grid-cols-3">
+            <div className="pointer-events-none absolute left-0 right-0 top-8 hidden h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent md:block" />
+            {[
+              { step: "01", icon: MousePointerClick, t: "Pick Your Role", d: "Select whether you're a student, staff member, alumni or admin." },
+              { step: "02", icon: UserPlus, t: "Request Access", d: "Fill in a quick form. Admin reviews and approves your account." },
+              { step: "03", icon: Zap, t: "Start Building", d: "Dive into your personalized dashboard and unlock everything FORGE offers." },
+            ].map((s) => (
+              <div key={s.step} className="relative text-center">
+                <div className="relative mx-auto grid h-16 w-16 place-items-center rounded-full bg-background ring-4 ring-primary/10">
+                  <div className="grid h-14 w-14 place-items-center rounded-full bg-primary text-primary-foreground shadow-glow">
+                    <s.icon className="h-6 w-6" />
+                  </div>
+                </div>
+                <div className="mt-4 text-xs font-black tracking-widest text-primary">STEP {s.step}</div>
+                <h3 className="mt-2 text-xl font-bold">{s.t}</h3>
+                <p className="mx-auto mt-2 max-w-xs text-sm text-muted-foreground">{s.d}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* TESTIMONIALS */}
+      <section className="bg-muted/40 py-24">
+        <div className="mx-auto max-w-7xl px-6">
+          <div className="text-center">
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-primary">Voices From FORGE</p>
+            <h2 className="mt-3 text-4xl font-bold tracking-tight">Loved by the Community</h2>
+            <div className="mx-auto mt-4 h-0.5 w-16 bg-primary" />
+          </div>
+
+          <div className="mt-14 grid gap-6 md:grid-cols-3">
+            {[
+              {
+                q: "FORGE turned scattered college life into one clean dashboard. I finally see everything in one place.",
+                n: "Priya S.",
+                r: "3rd Year, CSE",
+              },
+              {
+                q: "Uploading marks and tracking student performance used to take hours. Now it's a few clicks.",
+                n: "Dr. Ravi Kumar",
+                r: "Assistant Professor",
+              },
+              {
+                q: "Being able to mentor students from anywhere in the world? That's what alumni networking should feel like.",
+                n: "Aisha Menon",
+                r: "Alumni, Batch 2019",
+              },
+            ].map((t) => (
+              <figure key={t.n} className="relative rounded-2xl bg-card p-8 shadow-card">
+                <Quote className="absolute right-6 top-6 h-8 w-8 text-primary/20" />
+                <blockquote className="text-sm leading-relaxed text-foreground">"{t.q}"</blockquote>
+                <figcaption className="mt-6 border-t border-border pt-4">
+                  <div className="text-sm font-bold">{t.n}</div>
+                  <div className="text-xs text-muted-foreground">{t.r}</div>
+                </figcaption>
+              </figure>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <section className="bg-background py-20">
         <div className="mx-auto grid max-w-7xl items-center gap-12 px-6 lg:grid-cols-2">
           <div>
