@@ -10,7 +10,7 @@ export const Route = createFileRoute("/signup/$role")({
     return { role };
   },
   head: ({ params }) => ({
-    meta: [{ title: `${ROLES[params.role].label} Sign Up — FORGE` }],
+    meta: [{ title: `${ROLES[params.role as RoleKey].label} Sign Up — FORGE` }],
   }),
   component: RoleSignup,
 });
@@ -62,7 +62,7 @@ function RoleSignup() {
           {!isRequestOnly && (
             <>
               <form className="mt-8 space-y-5">
-                {cfg.signupFields.map((f) => {
+                {cfg.signupFields.map((f: (typeof cfg.signupFields)[number]) => {
                   const I = iconFor(f.key);
                   return (
                     <label key={f.key} className="block">

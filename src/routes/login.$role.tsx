@@ -10,12 +10,15 @@ export const Route = createFileRoute("/login/$role")({
     if (!(role in ROLES)) throw notFound();
     return { role };
   },
-  head: ({ params }) => ({
-    meta: [
-      { title: `${ROLES[params.role].label} Sign In — FORGE` },
-      { name: "description", content: `Sign in to your FORGE ${ROLES[params.role].label} account.` },
-    ],
-  }),
+  head: ({ params }) => {
+    const cfg = ROLES[params.role as RoleKey];
+    return {
+      meta: [
+        { title: `${cfg.label} Sign In — FORGE` },
+        { name: "description", content: `Sign in to your FORGE ${cfg.label} account.` },
+      ],
+    };
+  },
   component: RoleLogin,
 });
 
