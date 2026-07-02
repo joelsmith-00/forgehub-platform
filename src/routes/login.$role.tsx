@@ -24,7 +24,7 @@ export const Route = createFileRoute("/login/$role")({
 
 function RoleLogin() {
   const { role } = Route.useParams();
-  const cfg = ROLES[role];
+  const cfg = ROLES[role as RoleKey];
   const Icon = cfg.icon;
 
   return (
