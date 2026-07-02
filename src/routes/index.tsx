@@ -1,24 +1,288 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import {
+  ArrowRight,
+  BarChart3,
+  TrendingUp,
+  Users,
+  CalendarDays,
+  Lightbulb,
+  ShieldCheck,
+  Rocket,
+  BadgeCheck,
+  UserRound,
+  Trophy,
+  LineChart,
+  Award,
+  Headphones,
+  Flame,
+  UsersRound,
+} from "lucide-react";
+import { Navbar } from "@/components/site/Navbar";
+import { Footer } from "@/components/site/Footer";
+import heroImg from "@/assets/hero-forge.jpg";
+import aboutImg from "@/assets/about-building.jpg";
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
 export const Route = createFileRoute("/")({
-  component: Index,
+  head: () => ({
+    meta: [
+      { title: "FORGE Innovation & Ventures — Build Ideas. Shape Futures." },
+      {
+        name: "description",
+        content:
+          "FORGE is a unified platform for students, staff, alumni and administrators to collaborate, learn, innovate and build a better future together.",
+      },
+      { property: "og:title", content: "FORGE Innovation & Ventures" },
+      {
+        property: "og:description",
+        content: "Igniting innovation, empowering ventures.",
+      },
+    ],
+  }),
+  component: Landing,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
-function Index() {
+const stats = [
+  { icon: Users, value: "5000+", label: "Active Students" },
+  { icon: UserRound, value: "300+", label: "Staff Members" },
+  { icon: UsersRound, value: "1500+", label: "Alumni Connected" },
+  { icon: CalendarDays, value: "100+", label: "Events Organized" },
+  { icon: Trophy, value: "50+", label: "Awards Won" },
+];
+
+const features = [
+  {
+    icon: BarChart3,
+    title: "Academic Excellence",
+    body: "Track attendance, marks, assignments and performance.",
+  },
+  {
+    icon: TrendingUp,
+    title: "Growth & Development",
+    body: "Monitor progress, set goals and unlock your full potential.",
+  },
+  {
+    icon: Users,
+    title: "Collaboration",
+    body: "Connect with peers, mentors and faculty seamlessly.",
+  },
+  {
+    icon: CalendarDays,
+    title: "Events & Activities",
+    body: "Discover, participate and organize exciting events.",
+  },
+  {
+    icon: Lightbulb,
+    title: "Innovation Hub",
+    body: "Share ideas, build projects and innovate for a better tomorrow.",
+  },
+  {
+    icon: ShieldCheck,
+    title: "Secure Platform",
+    body: "Enterprise-grade security to protect your data and privacy.",
+  },
+];
+
+const aboutPillars = [
+  { icon: Rocket, title: "Innovation Driven", body: "Encouraging new ideas" },
+  { icon: BadgeCheck, title: "Future Ready", body: "Preparing leaders of tomorrow" },
+  { icon: Users, title: "Stronger Together", body: "A community that grows together" },
+];
+
+const benefits = [
+  { icon: UserRound, title: "Personalized Dashboard", body: "Get a customized view of your progress." },
+  { icon: LineChart, title: "Performance Insights", body: "Understand your strengths and improve." },
+  { icon: Users, title: "Career & Mentorship", body: "Connect with mentors and explore opportunities." },
+  { icon: Award, title: "Certificates & Badges", body: "Earn rewards and showcase your achievements." },
+  { icon: Trophy, title: "Leaderboard", body: "Compete, climb ranks and be motivated." },
+  { icon: Headphones, title: "24/7 Support", body: "We're here to help you every step of the way." },
+];
+
+function Landing() {
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
+    <div className="min-h-screen bg-background">
+      {/* HERO */}
+      <section className="relative overflow-hidden bg-ink text-ink-foreground">
+        <Navbar />
+        <div
+          className="absolute inset-0 opacity-70"
+          style={{
+            backgroundImage: `url(${heroImg})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center right",
+          }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-r from-ink via-ink/85 to-transparent" />
+
+        <div className="relative mx-auto grid max-w-7xl gap-10 px-6 pb-16 pt-40 lg:grid-cols-2 lg:pb-24 lg:pt-44">
+          <div className="max-w-xl">
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-primary">
+              Igniting Innovation,<br />Empowering Ventures
+            </p>
+            <h1 className="mt-6 text-5xl font-black leading-[1.05] tracking-tight sm:text-6xl lg:text-7xl">
+              BUILD IDEAS.
+              <br />
+              <span className="text-flame-gradient">SHAPE FUTURES.</span>
+            </h1>
+            <p className="mt-6 max-w-md text-base leading-relaxed text-white/70">
+              FORGE Innovation & Ventures is a unified platform for students, staff, alumni and administrators
+              to collaborate, learn, innovate and build a better future together.
+            </p>
+            <div className="mt-9 flex flex-wrap gap-4">
+              <Link
+                to="/login"
+                className="inline-flex items-center gap-2 rounded-md bg-primary px-7 py-3.5 text-sm font-semibold text-primary-foreground shadow-glow transition-transform hover:scale-[1.02]"
+              >
+                Sign In <ArrowRight className="h-4 w-4" />
+              </Link>
+              <Link
+                to="/signup"
+                className="inline-flex items-center gap-2 rounded-md border border-white/25 px-7 py-3.5 text-sm font-semibold text-white transition-colors hover:border-primary hover:text-primary"
+              >
+                Sign Up <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
+          </div>
+        </div>
+
+        {/* Stats strip */}
+        <div className="relative mx-auto max-w-7xl px-6 pb-16">
+          <div className="grid grid-cols-2 gap-6 rounded-2xl border border-white/10 bg-black/60 p-6 backdrop-blur sm:grid-cols-3 lg:grid-cols-5">
+            {stats.map((s) => (
+              <div key={s.label} className="flex items-center gap-3">
+                <div className="grid h-11 w-11 shrink-0 place-items-center rounded-lg bg-primary/15 text-primary">
+                  <s.icon className="h-5 w-5" />
+                </div>
+                <div className="min-w-0">
+                  <div className="text-2xl font-black text-white">{s.value}</div>
+                  <div className="text-xs text-white/60">{s.label}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* FEATURES */}
+      <section className="bg-muted/40 py-20">
+        <div className="mx-auto max-w-7xl px-6">
+          <div className="text-center">
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-primary">Everything You Need</p>
+            <h2 className="mt-3 text-4xl font-bold tracking-tight">All the Tools You Need to Succeed</h2>
+            <div className="mx-auto mt-4 h-0.5 w-16 bg-primary" />
+          </div>
+          <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
+            {features.map((f) => (
+              <div
+                key={f.title}
+                className="group rounded-xl bg-card p-6 text-center shadow-card transition-all hover:-translate-y-1 hover:shadow-glow"
+              >
+                <div className="mx-auto grid h-14 w-14 place-items-center rounded-xl bg-primary/10 text-primary transition-colors group-hover:bg-primary group-hover:text-primary-foreground">
+                  <f.icon className="h-6 w-6" />
+                </div>
+                <h3 className="mt-5 text-sm font-bold">{f.title}</h3>
+                <p className="mt-2 text-xs leading-relaxed text-muted-foreground">{f.body}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ABOUT */}
+      <section className="bg-background py-20">
+        <div className="mx-auto grid max-w-7xl items-center gap-12 px-6 lg:grid-cols-2">
+          <div>
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-primary">About FORGE</p>
+            <h2 className="mt-3 text-4xl font-bold tracking-tight">
+              Building Tomorrow.
+              <br />
+              Together.
+            </h2>
+            <p className="mt-5 max-w-md text-sm leading-relaxed text-muted-foreground">
+              FORGE Innovation & Ventures is more than a platform — it's a community that fosters creativity,
+              collaboration and continuous growth. Join us in shaping a future driven by innovation and excellence.
+            </p>
+            <Link
+              to="/about"
+              className="mt-8 inline-flex items-center gap-2 rounded-md border border-primary px-6 py-3 text-sm font-semibold text-primary transition-colors hover:bg-primary hover:text-primary-foreground"
+            >
+              Learn More About Us <ArrowRight className="h-4 w-4" />
+            </Link>
+          </div>
+
+          <div className="relative overflow-hidden rounded-2xl">
+            <img
+              src={aboutImg}
+              alt="FORGE campus building at dusk"
+              width={1400}
+              height={900}
+              loading="lazy"
+              className="h-[420px] w-full object-cover"
+            />
+            <div className="absolute right-6 top-1/2 w-64 -translate-y-1/2 space-y-3 rounded-xl bg-ink/90 p-5 text-ink-foreground backdrop-blur">
+              {aboutPillars.map((p) => (
+                <div key={p.title} className="flex items-start gap-3">
+                  <div className="grid h-9 w-9 shrink-0 place-items-center rounded-md bg-primary/15 text-primary">
+                    <p.icon className="h-4 w-4" />
+                  </div>
+                  <div className="min-w-0">
+                    <div className="text-sm font-semibold">{p.title}</div>
+                    <div className="text-xs text-white/60">{p.body}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* BENEFITS */}
+      <section className="bg-background pb-20">
+        <div className="mx-auto max-w-7xl px-6">
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-primary">Why Join FORGE?</p>
+          <h2 className="mt-3 text-3xl font-bold tracking-tight">Unlock Opportunities, Achieve More</h2>
+
+          <div className="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
+            {benefits.map((b) => (
+              <div key={b.title} className="flex flex-col">
+                <div className="grid h-10 w-10 place-items-center rounded-lg bg-primary/10 text-primary">
+                  <b.icon className="h-5 w-5" />
+                </div>
+                <h3 className="mt-4 text-sm font-bold">{b.title}</h3>
+                <p className="mt-1.5 text-xs leading-relaxed text-muted-foreground">{b.body}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="relative overflow-hidden bg-primary py-12">
+        <div className="absolute inset-0 opacity-20" style={{
+          backgroundImage: "radial-gradient(circle at 20% 50%, white 1px, transparent 1px)",
+          backgroundSize: "24px 24px",
+        }} />
+        <div className="relative mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-6 px-6">
+          <div className="flex items-center gap-5">
+            <div className="grid h-16 w-16 shrink-0 place-items-center rounded-full bg-white text-primary">
+              <Flame className="h-7 w-7" />
+            </div>
+            <div className="min-w-0 text-primary-foreground">
+              <h3 className="text-xl font-bold">Be a Part of the Innovation Revolution</h3>
+              <p className="text-sm text-primary-foreground/85">
+                Together, let's ignite ideas, empower ventures and build a better tomorrow.
+              </p>
+            </div>
+          </div>
+          <Link
+            to="/signup"
+            className="inline-flex items-center gap-2 rounded-md bg-white px-7 py-3.5 text-sm font-bold text-primary transition-transform hover:scale-[1.02]"
+          >
+            Get Started Today <ArrowRight className="h-4 w-4" />
+          </Link>
+        </div>
+      </section>
+
+      <Footer />
     </div>
   );
 }
