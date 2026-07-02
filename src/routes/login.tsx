@@ -1,125 +1,77 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { ArrowRight, Mail, Lock, Eye } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import forgeLogo from "@/assets/forge-logo.asset.json";
 import heroImg from "@/assets/hero-forge.jpg";
+import { ROLE_LIST } from "@/lib/roles";
 
 export const Route = createFileRoute("/login")({
   head: () => ({
     meta: [
       { title: "Sign In — FORGE" },
-      { name: "description", content: "Sign in to your FORGE account." },
+      { name: "description", content: "Choose your role to sign in to FORGE." },
     ],
   }),
-  component: LoginPage,
+  component: RolePicker,
 });
 
-function LoginPage() {
+function RolePicker() {
   return (
-    <div className="grid min-h-screen lg:grid-cols-2">
-      {/* Left panel */}
-      <div className="relative hidden overflow-hidden bg-ink text-ink-foreground lg:block">
-        <img src={heroImg} alt="" className="absolute inset-0 h-full w-full object-cover opacity-40" />
-        <div className="absolute inset-0 bg-gradient-to-br from-ink/90 to-transparent" />
-        <div className="relative p-10">
-          <Link to="/" className="inline-block">
+    <div className="relative min-h-screen overflow-hidden bg-ink text-ink-foreground">
+      <img src={heroImg} alt="" className="absolute inset-0 h-full w-full object-cover opacity-25" />
+      <div className="absolute inset-0 bg-gradient-to-b from-ink/95 via-ink/90 to-ink" />
+
+      <div className="relative mx-auto flex max-w-6xl flex-col px-6 py-10">
+        <header className="flex items-center justify-between">
+          <Link to="/">
             <img src={forgeLogo.url} alt="FORGE" className="h-10 w-auto" />
           </Link>
+          <Link to="/" className="text-sm text-white/70 hover:text-primary">
+            ← Back to Home
+          </Link>
+        </header>
+
+        <div className="mx-auto mt-16 max-w-2xl text-center">
+          <p className="text-xs font-bold uppercase tracking-[0.2em] text-primary">Welcome to FORGE</p>
+          <h1 className="mt-4 text-5xl font-black tracking-tight sm:text-6xl">
+            Choose Your <span className="text-flame-gradient">Role</span>
+          </h1>
+          <p className="mt-4 text-base text-white/70">
+            Select how you'd like to sign in. Each role gets its own dedicated experience.
+          </p>
         </div>
-        <div className="absolute inset-x-0 bottom-0 grid grid-cols-3 gap-4 bg-black/50 p-6 backdrop-blur">
-          {[
-            { t: "Secure Access", d: "Your data is protected with enterprise-grade security." },
-            { t: "Seamless Experience", d: "Access all features and resources in one place." },
-            { t: "Always Connected", d: "Stay updated with real-time notifications and insights." },
-          ].map((f) => (
-            <div key={f.t} className="rounded-lg bg-white/5 p-4">
-              <div className="text-sm font-semibold text-primary">{f.t}</div>
-              <div className="mt-1 text-xs text-white/60">{f.d}</div>
-            </div>
-          ))}
-        </div>
-      </div>
 
-      {/* Right panel */}
-      <div className="flex flex-col justify-center bg-background px-6 py-12 sm:px-12">
-        <div className="mx-auto w-full max-w-md">
-          <div className="mb-8 flex items-center justify-between lg:hidden">
-            <img src={forgeLogo.url} alt="FORGE" className="h-9 w-auto" />
-          </div>
-          <div className="rounded-2xl bg-card p-8 shadow-card sm:p-10">
-            <h1 className="text-center text-3xl font-bold tracking-tight">Welcome Back!</h1>
-            <p className="mt-2 text-center text-sm text-muted-foreground">Sign in to your account to continue</p>
-            <div className="mx-auto mt-3 h-0.5 w-10 bg-primary" />
-
-            <form className="mt-8 space-y-5">
-              <Field label="Email Address" icon={Mail} placeholder="Enter your email address" type="email" />
-              <div>
-                <Field label="Password" icon={Lock} placeholder="Enter your password" type="password" trailing={<Eye className="h-4 w-4" />} />
-                <div className="mt-2 text-right">
-                  <a href="#" className="text-xs font-semibold text-primary hover:underline">
-                    Forgot Password?
-                  </a>
-                </div>
-              </div>
-
-              <button
-                type="button"
-                className="flex w-full items-center justify-center gap-2 rounded-md bg-primary py-3.5 text-sm font-semibold text-primary-foreground shadow-glow transition-transform hover:scale-[1.01]"
+        <div className="mx-auto mt-14 grid w-full max-w-5xl gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {ROLE_LIST.map((r) => {
+            const Icon = r.icon;
+            return (
+              <Link
+                key={r.key}
+                to="/login/$role"
+                params={{ role: r.key }}
+                className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-6 transition-all hover:-translate-y-1 hover:border-primary/50 hover:bg-white/10"
               >
-                Sign In <ArrowRight className="h-4 w-4" />
-              </button>
-            </form>
-
-            <div className="my-6 flex items-center gap-3 text-xs text-muted-foreground">
-              <div className="h-px flex-1 bg-border" />
-              or continue with
-              <div className="h-px flex-1 bg-border" />
-            </div>
-
-            <div className="grid grid-cols-3 gap-3">
-              {["Google", "Microsoft", "Apple"].map((p) => (
-                <button
-                  key={p}
-                  className="rounded-md border border-border py-2.5 text-xs font-semibold transition-colors hover:border-primary hover:text-primary"
-                >
-                  {p}
-                </button>
-              ))}
-            </div>
-
-            <p className="mt-6 text-center text-sm text-muted-foreground">
-              Don't have an account?{" "}
-              <Link to="/signup" className="font-semibold text-primary hover:underline">
-                Sign Up
+                <div className={`absolute -right-8 -top-8 h-28 w-28 rounded-full bg-gradient-to-br ${r.accent} opacity-20 blur-2xl transition-opacity group-hover:opacity-60`} />
+                <div className={`relative grid h-14 w-14 place-items-center rounded-xl bg-gradient-to-br ${r.accent} text-white shadow-glow`}>
+                  <Icon className="h-6 w-6" />
+                </div>
+                <h3 className="relative mt-5 text-xl font-bold">{r.label}</h3>
+                <p className="relative mt-1 text-xs text-white/60">{r.tagline}</p>
+                <p className="relative mt-4 text-sm leading-relaxed text-white/75">{r.description}</p>
+                <div className="relative mt-6 inline-flex items-center gap-2 text-sm font-semibold text-primary">
+                  Sign in as {r.label} <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                </div>
               </Link>
-            </p>
-          </div>
+            );
+          })}
         </div>
+
+        <p className="mx-auto mt-12 text-sm text-white/60">
+          New to FORGE?{" "}
+          <Link to="/signup" className="font-semibold text-primary hover:underline">
+            Request access
+          </Link>
+        </p>
       </div>
     </div>
-  );
-}
-
-function Field({
-  label,
-  icon: Icon,
-  trailing,
-  ...props
-}: {
-  label: string;
-  icon: React.ElementType;
-  trailing?: React.ReactNode;
-} & React.InputHTMLAttributes<HTMLInputElement>) {
-  return (
-    <label className="block">
-      <span className="text-sm font-semibold">{label}</span>
-      <div className="mt-2 flex items-center gap-2 rounded-md border border-input bg-background px-3 py-2.5 focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/20">
-        <Icon className="h-4 w-4 text-muted-foreground" />
-        <input
-          {...props}
-          className="flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground"
-        />
-        {trailing && <span className="text-muted-foreground">{trailing}</span>}
-      </div>
-    </label>
   );
 }
