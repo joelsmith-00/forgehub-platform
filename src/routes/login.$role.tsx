@@ -1,4 +1,4 @@
-import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { createFileRoute, Link, notFound, useNavigate } from "@tanstack/react-router";
 import { ArrowRight, Lock, Mail, Eye } from "lucide-react";
 import forgeLogo from "@/assets/forge-logo.asset.json";
 import heroImg from "@/assets/hero-forge.jpg";
@@ -26,6 +26,7 @@ function RoleLogin() {
   const { role } = Route.useParams();
   const cfg = ROLES[role as RoleKey];
   const Icon = cfg.icon;
+  const navigate = useNavigate();
 
   return (
     <div className="grid min-h-screen lg:grid-cols-2">
@@ -97,6 +98,7 @@ function RoleLogin() {
 
               <button
                 type="button"
+                onClick={() => navigate({ to: "/dashboard/$role", params: { role: cfg.key } })}
                 className="flex w-full items-center justify-center gap-2 rounded-md bg-primary py-3.5 text-sm font-semibold text-primary-foreground shadow-glow transition-transform hover:scale-[1.01]"
               >
                 Sign In <ArrowRight className="h-4 w-4" />
