@@ -1,3 +1,4 @@
+import type React from "react";
 import {
   ResponsiveContainer, LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid,
   BarChart, Bar, PieChart, Pie, Cell, Legend, AreaChart, Area,
@@ -1280,7 +1281,7 @@ function GenericSettings({ role }: { role: RoleKey }) {
 /* ============================================================
    REGISTRY
    ============================================================ */
-type PageFn = () => JSX.Element;
+type PageFn = () => React.ReactElement;
 
 const PAGES: Record<RoleKey, Record<string, PageFn>> = {
   student: {
