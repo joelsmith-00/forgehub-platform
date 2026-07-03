@@ -399,6 +399,84 @@ function Landing() {
         </div>
       </section>
 
+      {/* ================= Partners strip ================= */}
+      <section className="border-y border-border/60 bg-secondary/40 py-12">
+        <div className="mx-auto max-w-7xl px-6">
+          <p className="text-center text-xs font-bold uppercase tracking-[0.3em] text-muted-foreground">
+            Trusted by 30+ institutions & industry partners
+          </p>
+          <div className="mt-6 grid grid-cols-2 gap-8 sm:grid-cols-3 md:grid-cols-6">
+            {["FORGE Labs", "InnovateX", "EduSpark", "NexaAI", "Skyline", "Verdant"].map((p) => (
+              <div key={p} className="text-center text-sm font-black tracking-tight text-muted-foreground/80 transition-colors hover:text-primary">
+                {p}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ================= Numbers that matter ================= */}
+      <section className="bg-ink py-24 text-ink-foreground">
+        <div className="mx-auto max-w-7xl px-6">
+          <div className="mx-auto max-w-2xl text-center">
+            <span className="inline-block rounded-full bg-primary/15 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-primary">
+              Impact in numbers
+            </span>
+            <h2 className="mt-4 text-4xl font-black tracking-tight sm:text-5xl">
+              A campus that <span className="text-flame-gradient">delivers results</span>
+            </h2>
+            <p className="mt-4 text-white/60">
+              From placements to publications, our community moves fast — and takes everyone with it.
+            </p>
+          </div>
+          <div className="mt-14 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {[
+              { k: "94%", v: "Placement rate", d: "Class of 2025 across 4 departments" },
+              { k: "1.2K", v: "Active projects", d: "Live student & alumni collaborations" },
+              { k: "320+", v: "Industry mentors", d: "From FAANG, ISRO, DRDO and startups" },
+              { k: "18M", v: "Scholarships awarded", d: "Merit and need-based funding" },
+            ].map((s) => (
+              <div key={s.v} className="rounded-2xl border border-white/10 bg-white/5 p-6 backdrop-blur">
+                <div className="text-4xl font-black text-flame-gradient">{s.k}</div>
+                <div className="mt-2 text-sm font-bold">{s.v}</div>
+                <div className="mt-1 text-xs text-white/50">{s.d}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ================= FAQ ================= */}
+      <section className="bg-background py-24">
+        <div className="mx-auto max-w-4xl px-6">
+          <div className="text-center">
+            <span className="inline-block rounded-full bg-primary/10 px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-primary">
+              Frequently asked
+            </span>
+            <h2 className="mt-4 text-4xl font-black tracking-tight sm:text-5xl">
+              Everything you need to know
+            </h2>
+          </div>
+          <div className="mt-12 space-y-3">
+            {[
+              { q: "Who can create a FORGE account?", a: "Students, staff, alumni and administrators of the institution. Each role has its own tailored dashboard and permissions." },
+              { q: "Is my data secure?", a: "Yes. FORGE runs on enterprise-grade infrastructure with role-based access control, encrypted transit and audited storage." },
+              { q: "How do I get access as an alumni?", a: "Choose Alumni on the sign-up page, verify your graduation details and our team will approve your request within 24 hours." },
+              { q: "Can staff import marks from Excel?", a: "Yes. Staff dashboards support bulk upload for marks, attendance and student records with validation and rollback." },
+              { q: "Does FORGE support mobile devices?", a: "Every dashboard is fully responsive — designed to work beautifully on phones, tablets and desktops." },
+            ].map((f, i) => (
+              <details key={f.q} className="group rounded-xl border border-border bg-card p-5 transition-all open:shadow-card" open={i === 0}>
+                <summary className="flex cursor-pointer items-center justify-between text-base font-bold">
+                  {f.q}
+                  <ArrowRight className="h-4 w-4 transition-transform group-open:rotate-90 text-primary" />
+                </summary>
+                <p className="mt-3 text-sm text-muted-foreground">{f.a}</p>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <Footer />
     </div>
   );
