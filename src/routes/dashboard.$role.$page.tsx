@@ -3,7 +3,7 @@ import { renderDashboardPage } from "@/components/dashboard/pages";
 import { DASHBOARD_NAV } from "@/lib/dashboard-nav";
 import type { RoleKey } from "@/lib/roles";
 
-export const Route = createFileRoute("/dashboard/$role/page")({
+export const Route = createFileRoute("/dashboard/$role/$page")({
   parseParams: (p) => {
     const role = p.role as RoleKey;
     const page = p.page as string;

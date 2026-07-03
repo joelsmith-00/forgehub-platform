@@ -20,7 +20,7 @@ import { Route as SignupRoleRouteImport } from './routes/signup.$role'
 import { Route as LoginRoleRouteImport } from './routes/login.$role'
 import { Route as DashboardRoleRouteImport } from './routes/dashboard.$role'
 import { Route as DashboardRoleIndexRouteImport } from './routes/dashboard.$role.index'
-import { Route as DashboardRolePageRouteImport } from './routes/dashboard.$role.page'
+import { Route as DashboardRolePageRouteImport } from './routes/dashboard.$role.$page'
 
 const SignupRoute = SignupRouteImport.update({
   id: '/signup',
@@ -78,8 +78,8 @@ const DashboardRoleIndexRoute = DashboardRoleIndexRouteImport.update({
   getParentRoute: () => DashboardRoleRoute,
 } as any)
 const DashboardRolePageRoute = DashboardRolePageRouteImport.update({
-  id: '/page',
-  path: '/page',
+  id: '/$page',
+  path: '/$page',
   getParentRoute: () => DashboardRoleRoute,
 } as any)
 
@@ -94,7 +94,7 @@ export interface FileRoutesByFullPath {
   '/dashboard/$role': typeof DashboardRoleRouteWithChildren
   '/login/$role': typeof LoginRoleRoute
   '/signup/$role': typeof SignupRoleRoute
-  '/dashboard/$role/page': typeof DashboardRolePageRoute
+  '/dashboard/$role/$page': typeof DashboardRolePageRoute
   '/dashboard/$role/': typeof DashboardRoleIndexRoute
 }
 export interface FileRoutesByTo {
@@ -107,7 +107,7 @@ export interface FileRoutesByTo {
   '/signup': typeof SignupRouteWithChildren
   '/login/$role': typeof LoginRoleRoute
   '/signup/$role': typeof SignupRoleRoute
-  '/dashboard/$role/page': typeof DashboardRolePageRoute
+  '/dashboard/$role/$page': typeof DashboardRolePageRoute
   '/dashboard/$role': typeof DashboardRoleIndexRoute
 }
 export interface FileRoutesById {
@@ -122,7 +122,7 @@ export interface FileRoutesById {
   '/dashboard/$role': typeof DashboardRoleRouteWithChildren
   '/login/$role': typeof LoginRoleRoute
   '/signup/$role': typeof SignupRoleRoute
-  '/dashboard/$role/page': typeof DashboardRolePageRoute
+  '/dashboard/$role/$page': typeof DashboardRolePageRoute
   '/dashboard/$role/': typeof DashboardRoleIndexRoute
 }
 export interface FileRouteTypes {
@@ -138,7 +138,7 @@ export interface FileRouteTypes {
     | '/dashboard/$role'
     | '/login/$role'
     | '/signup/$role'
-    | '/dashboard/$role/page'
+    | '/dashboard/$role/$page'
     | '/dashboard/$role/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -151,7 +151,7 @@ export interface FileRouteTypes {
     | '/signup'
     | '/login/$role'
     | '/signup/$role'
-    | '/dashboard/$role/page'
+    | '/dashboard/$role/$page'
     | '/dashboard/$role'
   id:
     | '__root__'
@@ -165,7 +165,7 @@ export interface FileRouteTypes {
     | '/dashboard/$role'
     | '/login/$role'
     | '/signup/$role'
-    | '/dashboard/$role/page'
+    | '/dashboard/$role/$page'
     | '/dashboard/$role/'
   fileRoutesById: FileRoutesById
 }
@@ -259,10 +259,10 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardRoleIndexRouteImport
       parentRoute: typeof DashboardRoleRoute
     }
-    '/dashboard/$role/page': {
-      id: '/dashboard/$role/page'
-      path: '/page'
-      fullPath: '/dashboard/$role/page'
+    '/dashboard/$role/$page': {
+      id: '/dashboard/$role/$page'
+      path: '/$page'
+      fullPath: '/dashboard/$role/$page'
       preLoaderRoute: typeof DashboardRolePageRouteImport
       parentRoute: typeof DashboardRoleRoute
     }
