@@ -123,11 +123,11 @@ export function DashboardShell({ role, children }: { role: RoleKey; children: Re
             </button>
             <div className="flex items-center gap-2 rounded-md bg-white/5 px-2 py-1.5">
               <div className={`grid h-7 w-7 place-items-center rounded-full bg-gradient-to-br ${cfg.accent} text-[11px] font-bold`}>
-                {cfg.label[0]}
+                {(user?.name ?? cfg.label)[0]}
               </div>
               <div className="hidden text-left sm:block">
-                <div className="text-xs font-semibold leading-tight">Demo {cfg.label}</div>
-                <div className="text-[10px] text-white/50 leading-tight">{cfg.label.toLowerCase()}@forge.edu</div>
+                <div className="text-xs font-semibold leading-tight">{user?.name ?? `Demo ${cfg.label}`}</div>
+                <div className="text-[10px] text-white/50 leading-tight font-mono">{user?.forgeId ?? `${cfg.label.toLowerCase()}@forge.edu`}</div>
               </div>
               <ChevronDown className="h-3 w-3 text-white/50" />
             </div>
