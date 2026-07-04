@@ -16,6 +16,21 @@ export function DashboardShell({ role, children }: { role: RoleKey; children: Re
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const user = useAuth();
+
+  useEffect(() => {
+    if (user === null) {
+      // no session — send to role login
+      navigate({ to: "/login/$role", params: { role } });
+    } else if (user && user.role !== role) {
+      navigate({ to: "/dashboard/$role", params: { role: user.role } });
+    }
+  }, [user, role, navigate]);
+
+  const handleLogout = () => {
+    logout();
+    navigate({ to: "/login/$role", params: { role } });
+  };
 
   const activeKey = (() => {
     const base = `/dashboard/${role}`;
