@@ -1,9 +1,11 @@
 import { Link, useRouterState, useNavigate } from "@tanstack/react-router";
-import { useState, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { Menu, X, Search, Bell, ChevronDown } from "lucide-react";
 import { ROLES, type RoleKey } from "@/lib/roles";
 import { DASHBOARD_NAV, LOGOUT_ITEM } from "@/lib/dashboard-nav";
 import forgeLogo from "@/assets/forge-logo.asset.json";
+import { useAuth } from "@/hooks/use-auth";
+import { logout } from "@/lib/auth";
 
 const THEME =
   "[--dsh-bg:#000000] [--dsh-side:#414042] [--dsh-card:#58595b] [--dsh-primary:#f15a22] [--dsh-secondary:#f58220] [--dsh-gold:#fcaf17]";
