@@ -7,7 +7,7 @@ import {
   Trophy, CalendarCheck, GraduationCap, ClipboardList, TrendingUp, Star,
   Award, Medal, Upload, Download, Plus, CheckCircle2, XCircle, Mail,
   Users, BarChart3, Building2, Bell, Sparkles, Briefcase, MessageSquare, Handshake, FileText,
-  UserRound,
+  UserRound, Flame, ThumbsUp, ThumbsDown, ShieldAlert,
 } from "lucide-react";
 import { StatCard, Panel, PageHeader, TableShell, Th, Td, Chip } from "./DashboardShell";
 import {
