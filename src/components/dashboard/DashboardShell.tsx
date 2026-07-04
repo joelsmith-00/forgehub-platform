@@ -93,7 +93,7 @@ export function DashboardShell({ role, children }: { role: RoleKey; children: Re
             );
           })}
           <button
-            onClick={() => navigate({ to: "/" })}
+            onClick={handleLogout}
             className="mt-4 flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-white/60 hover:bg-white/10 hover:text-white"
           >
             <LOGOUT_ITEM.icon className="h-4 w-4" /> Logout
