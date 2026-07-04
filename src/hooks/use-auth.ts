@@ -6,7 +6,10 @@ export function useAuth(): ForgeUser | null {
   useEffect(() => {
     seedDemoAccounts();
     setUser(getCurrentUser());
-    return subscribeAuth(() => setUser(getCurrentUser()));
+    const unsub = subscribeAuth(() => setUser(getCurrentUser()));
+    return () => {
+      unsub();
+    };
   }, []);
   return user;
 }
