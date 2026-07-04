@@ -77,19 +77,25 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "FORGE Innovation & Ventures" },
+      { title: "FORGE Innovation & Ventures — Build Ideas. Shape Futures." },
       {
         name: "description",
         content:
           "A unified platform for students, staff, alumni and administrators to collaborate, learn and innovate.",
       },
-      { property: "og:title", content: "FORGE Innovation & Ventures" },
+      { property: "og:title", content: "FORGE Innovation & Ventures — Build Ideas. Shape Futures." },
       {
         property: "og:description",
         content: "Igniting innovation, empowering ventures.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "FORGE Innovation & Ventures — Build Ideas. Shape Futures." },
+      { name: "description", content: "FORGE is a unified platform for students, staff, alumni and administrators to collaborate, learn, innovate and build a better future together." },
+      { property: "og:description", content: "FORGE is a unified platform for students, staff, alumni and administrators to collaborate, learn, innovate and build a better future together." },
+      { name: "twitter:description", content: "FORGE is a unified platform for students, staff, alumni and administrators to collaborate, learn, innovate and build a better future together." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/776eec59-c5ab-4c4a-a329-2b86b2293178/id-preview-f2fd6b79--b4f9faea-df9c-46be-9e77-06f973150e7d.lovable.app-1783177008101.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/776eec59-c5ab-4c4a-a329-2b86b2293178/id-preview-f2fd6b79--b4f9faea-df9c-46be-9e77-06f973150e7d.lovable.app-1783177008101.png" },
     ],
     links: [
       {
