@@ -2,6 +2,13 @@ import { GraduationCap, Briefcase, Users, ShieldCheck, type LucideIcon } from "l
 
 export type RoleKey = "student" | "staff" | "alumni" | "admin";
 
+export interface SignupField {
+  key: "name" | "register" | "staffId" | "department" | "email" | "phone" | "gradYear" | "company" | "password";
+  label: string;
+  placeholder: string;
+  type?: string;
+}
+
 export interface RoleConfig {
   key: RoleKey;
   label: string;
@@ -9,10 +16,12 @@ export interface RoleConfig {
   description: string;
   icon: LucideIcon;
   idField: { label: string; placeholder: string };
-  signupFields: Array<{ key: string; label: string; placeholder: string; type?: string }>;
+  signupFields: SignupField[];
   signupNote: string;
-  accent: string; // tailwind gradient classes
+  accent: string;
 }
+
+const PWD: SignupField = { key: "password", label: "Password", placeholder: "Create a password", type: "password" };
 
 export const ROLES: Record<RoleKey, RoleConfig> = {
   student: {
@@ -21,13 +30,16 @@ export const ROLES: Record<RoleKey, RoleConfig> = {
     tagline: "Learn. Grow. Excel.",
     description: "Track attendance, marks, assignments and climb the leaderboard.",
     icon: GraduationCap,
-    idField: { label: "Student ID", placeholder: "Enter your student ID" },
+    idField: { label: "Register No / FORGE ID / Email", placeholder: "e.g. 23AIDS001" },
     signupFields: [
       { key: "name", label: "Full Name", placeholder: "Enter your full name" },
-      { key: "register", label: "Register Number", placeholder: "Enter your register number" },
-      { key: "email", label: "Mail ID", placeholder: "you@college.edu", type: "email" },
+      { key: "register", label: "Register Number", placeholder: "e.g. 23AIDS001" },
+      { key: "department", label: "Department", placeholder: "e.g. AI & DS" },
+      { key: "email", label: "Email", placeholder: "you@college.edu", type: "email" },
+      { key: "phone", label: "Phone", placeholder: "+91 9xxxxxxxxx" },
+      PWD,
     ],
-    signupNote: "Your request will be reviewed by the admin. You'll receive an email once approved.",
+    signupNote: "Your account is created instantly with a unique FORGE ID.",
     accent: "from-orange-500 to-amber-500",
   },
   staff: {
@@ -36,12 +48,16 @@ export const ROLES: Record<RoleKey, RoleConfig> = {
     tagline: "Teach. Mentor. Manage.",
     description: "Upload marks, manage attendance, publish assignments and generate reports.",
     icon: Briefcase,
-    idField: { label: "Staff ID", placeholder: "Enter your staff ID" },
+    idField: { label: "Staff ID / FORGE ID / Email", placeholder: "e.g. STF001" },
     signupFields: [
       { key: "name", label: "Full Name", placeholder: "Enter your full name" },
-      { key: "email", label: "Mail ID", placeholder: "you@college.edu", type: "email" },
+      { key: "staffId", label: "Staff ID", placeholder: "e.g. STF001" },
+      { key: "department", label: "Department", placeholder: "e.g. AI & DS" },
+      { key: "email", label: "Email", placeholder: "you@college.edu", type: "email" },
+      { key: "phone", label: "Phone", placeholder: "+91 9xxxxxxxxx" },
+      PWD,
     ],
-    signupNote: "Staff accounts require verification by the system administrator.",
+    signupNote: "Staff accounts are created instantly with a unique FORGE Staff ID.",
     accent: "from-rose-500 to-orange-500",
   },
   alumni: {
@@ -50,13 +66,17 @@ export const ROLES: Record<RoleKey, RoleConfig> = {
     tagline: "Connect. Mentor. Inspire.",
     description: "Reconnect with peers, mentor students and join alumni events.",
     icon: Users,
-    idField: { label: "Alumni ID", placeholder: "Enter your alumni ID" },
+    idField: { label: "FORGE ID / Email", placeholder: "e.g. FORGE-ALM-2026-0001" },
     signupFields: [
       { key: "name", label: "Full Name", placeholder: "Enter your full name" },
-      { key: "email", label: "Mail ID", placeholder: "you@company.com", type: "email" },
-      { key: "gradYear", label: "Graduation Year", placeholder: "e.g. 2020" },
+      { key: "gradYear", label: "Graduation Year", placeholder: "e.g. 2018" },
+      { key: "department", label: "Department", placeholder: "e.g. AI & DS" },
+      { key: "company", label: "Current Company", placeholder: "e.g. Google" },
+      { key: "email", label: "Email", placeholder: "you@company.com", type: "email" },
+      { key: "phone", label: "Phone", placeholder: "+91 9xxxxxxxxx" },
+      PWD,
     ],
-    signupNote: "Verify your graduation details to activate your alumni account.",
+    signupNote: "Alumni accounts are created instantly with a unique FORGE Alumni ID.",
     accent: "from-amber-500 to-yellow-500",
   },
   admin: {
@@ -65,7 +85,7 @@ export const ROLES: Record<RoleKey, RoleConfig> = {
     tagline: "Approve. Oversee. Report.",
     description: "Manage users, approve requests and oversee the platform.",
     icon: ShieldCheck,
-    idField: { label: "Admin ID / Email", placeholder: "Enter your admin ID or email" },
+    idField: { label: "Admin ID", placeholder: "forgeadmin" },
     signupFields: [],
     signupNote: "Admin accounts are provisioned internally. Contact the system owner.",
     accent: "from-orange-600 to-red-500",

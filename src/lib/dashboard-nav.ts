@@ -2,6 +2,7 @@ import {
   LayoutDashboard, UserRound, CalendarCheck, GraduationCap, ClipboardList, Trophy,
   LineChart, Award, Medal, CalendarDays, Settings, LogOut, Users, BarChart3, FileText,
   Briefcase, MessageSquare, Sparkles, Building2, Bell, ShieldCheck, UserCheck, Handshake,
+  Flame,
   type LucideIcon,
 } from "lucide-react";
 import type { RoleKey } from "./roles";
@@ -15,6 +16,7 @@ export const DASHBOARD_NAV: Record<RoleKey, NavItem[]> = {
     { key: "attendance", label: "Attendance", icon: CalendarCheck },
     { key: "marks", label: "Marks", icon: GraduationCap },
     { key: "assignments", label: "Assignments", icon: ClipboardList },
+    { key: "leadership", label: "Leadership", icon: Flame },
     { key: "leaderboard", label: "Leaderboard", icon: Trophy },
     { key: "analytics", label: "Analytics", icon: LineChart },
     { key: "certificates", label: "Certificates", icon: Award },
@@ -28,6 +30,7 @@ export const DASHBOARD_NAV: Record<RoleKey, NavItem[]> = {
     { key: "attendance", label: "Attendance", icon: CalendarCheck },
     { key: "marks", label: "Marks", icon: GraduationCap },
     { key: "assignments", label: "Assignments", icon: ClipboardList },
+    { key: "leadership", label: "Leadership", icon: Flame },
     { key: "analytics", label: "Analytics", icon: BarChart3 },
     { key: "reports", label: "Reports", icon: FileText },
     { key: "leaderboard", label: "Leaderboard", icon: Trophy },
