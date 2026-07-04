@@ -1,8 +1,10 @@
 import { createFileRoute, Link, notFound, useNavigate } from "@tanstack/react-router";
-import { ArrowRight, Lock, Mail, Eye } from "lucide-react";
+import { useState } from "react";
+import { ArrowRight, Lock, Mail } from "lucide-react";
 import forgeLogo from "@/assets/forge-logo.asset.json";
 import heroImg from "@/assets/hero-forge.jpg";
 import { ROLES, type RoleKey } from "@/lib/roles";
+import { login } from "@/lib/auth";
 
 export const Route = createFileRoute("/login/$role")({
   parseParams: (p) => {
@@ -22,11 +24,37 @@ export const Route = createFileRoute("/login/$role")({
   component: RoleLogin,
 });
 
+const DEMO: Partial<Record<RoleKey, { id: string; pwd: string }>> = {
+  student: { id: "23AIDS001", pwd: "student123" },
+  staff: { id: "STF001", pwd: "staff123" },
+  alumni: { id: "priya@forge.edu", pwd: "alumni123" },
+  admin: { id: "forgeadmin", pwd: "forge@admin2026" },
+};
+
 function RoleLogin() {
   const { role } = Route.useParams();
   const cfg = ROLES[role as RoleKey];
   const Icon = cfg.icon;
   const navigate = useNavigate();
+
+  const [identifier, setIdentifier] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState<string | null>(null);
+
+  const onSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setError(null);
+    const result = login(cfg.key, identifier, password);
+    if (!result.ok) return setError(result.error);
+    navigate({ to: "/dashboard/$role", params: { role: cfg.key } });
+  };
+
+  const fillDemo = () => {
+    const d = DEMO[cfg.key];
+    if (!d) return;
+    setIdentifier(d.id);
+    setPassword(d.pwd);
+  };
 
   return (
     <div className="grid min-h-screen lg:grid-cols-2">
@@ -34,29 +62,14 @@ function RoleLogin() {
         <img src={heroImg} alt="" className="absolute inset-0 h-full w-full object-cover opacity-35" />
         <div className="absolute inset-0 bg-gradient-to-br from-ink/95 via-ink/80 to-transparent" />
         <div className="relative flex h-full flex-col p-10">
-          <Link to="/">
-            <img src={forgeLogo.url} alt="FORGE" className="h-10 w-auto" />
-          </Link>
+          <Link to="/"><img src={forgeLogo.url} alt="FORGE" className="h-10 w-auto" /></Link>
           <div className="mt-auto">
             <div className={`inline-flex items-center gap-3 rounded-full bg-gradient-to-r ${cfg.accent} px-4 py-2`}>
               <Icon className="h-4 w-4 text-white" />
               <span className="text-xs font-bold uppercase tracking-widest text-white">{cfg.label} Portal</span>
             </div>
-            <h2 className="mt-6 max-w-md text-4xl font-black leading-tight">{cfg.tagline}</h2>
+            <h2 className="mt-6 max-w-md text-4xl font-black leading-tight animate-fade-in">{cfg.tagline}</h2>
             <p className="mt-3 max-w-md text-sm text-white/70">{cfg.description}</p>
-
-            <div className="mt-10 grid grid-cols-3 gap-3">
-              {[
-                { t: "Secure Access", d: "Enterprise-grade security" },
-                { t: "Seamless", d: "One place for everything" },
-                { t: "Connected", d: "Real-time updates" },
-              ].map((f) => (
-                <div key={f.t} className="rounded-lg bg-white/5 p-3">
-                  <div className="text-xs font-semibold text-primary">{f.t}</div>
-                  <div className="mt-0.5 text-[10px] text-white/60">{f.d}</div>
-                </div>
-              ))}
-            </div>
           </div>
         </div>
       </div>
@@ -64,12 +77,10 @@ function RoleLogin() {
       <div className="flex flex-col justify-center bg-background px-6 py-12 sm:px-12">
         <div className="mx-auto w-full max-w-md">
           <div className="mb-6 flex items-center justify-between lg:hidden">
-            <Link to="/">
-              <img src={forgeLogo.url} alt="FORGE" className="h-9 w-auto" />
-            </Link>
+            <Link to="/"><img src={forgeLogo.url} alt="FORGE" className="h-9 w-auto" /></Link>
           </div>
 
-          <div className="rounded-2xl bg-card p-8 shadow-card sm:p-10">
+          <div className="animate-fade-in rounded-2xl bg-card p-8 shadow-card sm:p-10">
             <div className={`mx-auto grid h-14 w-14 place-items-center rounded-2xl bg-gradient-to-br ${cfg.accent} text-white shadow-glow`}>
               <Icon className="h-6 w-6" />
             </div>
@@ -79,61 +90,64 @@ function RoleLogin() {
             </p>
             <div className="mx-auto mt-3 h-0.5 w-10 bg-primary" />
 
-            <form className="mt-8 space-y-5">
-              <Field label={cfg.idField.label} icon={Mail} placeholder={cfg.idField.placeholder} />
-              <div>
-                <Field
-                  label="Password"
-                  icon={Lock}
-                  placeholder="Enter your password"
-                  type="password"
-                  trailing={<Eye className="h-4 w-4" />}
-                />
-                <div className="mt-2 text-right">
-                  <a href="#" className="text-xs font-semibold text-primary hover:underline">
-                    Forgot Password?
-                  </a>
+            <form className="mt-8 space-y-5" onSubmit={onSubmit}>
+              <label className="block">
+                <span className="text-sm font-semibold">{cfg.idField.label}</span>
+                <div className="mt-2 flex items-center gap-2 rounded-md border border-input bg-background px-3 py-2.5 focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/20">
+                  <Mail className="h-4 w-4 text-muted-foreground" />
+                  <input
+                    value={identifier}
+                    onChange={(e) => setIdentifier(e.target.value)}
+                    placeholder={cfg.idField.placeholder}
+                    required
+                    className="flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground"
+                  />
                 </div>
-              </div>
+              </label>
+              <label className="block">
+                <span className="text-sm font-semibold">Password</span>
+                <div className="mt-2 flex items-center gap-2 rounded-md border border-input bg-background px-3 py-2.5 focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/20">
+                  <Lock className="h-4 w-4 text-muted-foreground" />
+                  <input
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="Enter your password"
+                    required
+                    className="flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground"
+                  />
+                </div>
+              </label>
+
+              {error && (
+                <div className="rounded-md border border-destructive/40 bg-destructive/10 p-3 text-xs text-destructive">
+                  {error}
+                </div>
+              )}
 
               <button
-                type="button"
-                onClick={() => navigate({ to: "/dashboard/$role", params: { role: cfg.key } })}
+                type="submit"
                 className="flex w-full items-center justify-center gap-2 rounded-md bg-primary py-3.5 text-sm font-semibold text-primary-foreground shadow-glow transition-transform hover:scale-[1.01]"
               >
                 Sign In <ArrowRight className="h-4 w-4" />
               </button>
-            </form>
 
-            {cfg.key !== "admin" && (
-              <>
-                <div className="my-6 flex items-center gap-3 text-xs text-muted-foreground">
-                  <div className="h-px flex-1 bg-border" />
-                  or continue with
-                  <div className="h-px flex-1 bg-border" />
-                </div>
-                <div className="grid grid-cols-3 gap-3">
-                  {["Google", "Microsoft", "Apple"].map((p) => (
-                    <button
-                      key={p}
-                      className="rounded-md border border-border py-2.5 text-xs font-semibold transition-colors hover:border-primary hover:text-primary"
-                    >
-                      {p}
-                    </button>
-                  ))}
-                </div>
-              </>
-            )}
+              {DEMO[cfg.key] && (
+                <button
+                  type="button"
+                  onClick={fillDemo}
+                  className="w-full rounded-md border border-dashed border-primary/50 py-2.5 text-xs font-semibold text-primary hover:bg-primary/5"
+                >
+                  Use demo {cfg.label.toLowerCase()} credentials
+                </button>
+              )}
+            </form>
 
             <p className="mt-6 text-center text-sm text-muted-foreground">
               {cfg.signupFields.length > 0 ? (
                 <>
                   Don't have an account?{" "}
-                  <Link
-                    to="/signup/$role"
-                    params={{ role: cfg.key }}
-                    className="font-semibold text-primary hover:underline"
-                  >
+                  <Link to="/signup/$role" params={{ role: cfg.key }} className="font-semibold text-primary hover:underline">
                     Create New Account
                   </Link>
                 </>
@@ -148,30 +162,5 @@ function RoleLogin() {
         </div>
       </div>
     </div>
-  );
-}
-
-function Field({
-  label,
-  icon: Icon,
-  trailing,
-  ...props
-}: {
-  label: string;
-  icon: React.ElementType;
-  trailing?: React.ReactNode;
-} & React.InputHTMLAttributes<HTMLInputElement>) {
-  return (
-    <label className="block">
-      <span className="text-sm font-semibold">{label}</span>
-      <div className="mt-2 flex items-center gap-2 rounded-md border border-input bg-background px-3 py-2.5 focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/20">
-        <Icon className="h-4 w-4 text-muted-foreground" />
-        <input
-          {...props}
-          className="flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground"
-        />
-        {trailing && <span className="text-muted-foreground">{trailing}</span>}
-      </div>
-    </label>
   );
 }

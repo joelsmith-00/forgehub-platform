@@ -1,9 +1,11 @@
 import { Link, useRouterState, useNavigate } from "@tanstack/react-router";
-import { useState, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { Menu, X, Search, Bell, ChevronDown } from "lucide-react";
 import { ROLES, type RoleKey } from "@/lib/roles";
 import { DASHBOARD_NAV, LOGOUT_ITEM } from "@/lib/dashboard-nav";
 import forgeLogo from "@/assets/forge-logo.asset.json";
+import { useAuth } from "@/hooks/use-auth";
+import { logout } from "@/lib/auth";
 
 const THEME =
   "[--dsh-bg:#000000] [--dsh-side:#414042] [--dsh-card:#58595b] [--dsh-primary:#f15a22] [--dsh-secondary:#f58220] [--dsh-gold:#fcaf17]";
@@ -14,6 +16,21 @@ export function DashboardShell({ role, children }: { role: RoleKey; children: Re
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const user = useAuth();
+
+  useEffect(() => {
+    if (user === null) {
+      // no session — send to role login
+      navigate({ to: "/login/$role", params: { role } });
+    } else if (user && user.role !== role) {
+      navigate({ to: "/dashboard/$role", params: { role: user.role } });
+    }
+  }, [user, role, navigate]);
+
+  const handleLogout = () => {
+    logout();
+    navigate({ to: "/login/$role", params: { role } });
+  };
 
   const activeKey = (() => {
     const base = `/dashboard/${role}`;
@@ -76,7 +93,7 @@ export function DashboardShell({ role, children }: { role: RoleKey; children: Re
             );
           })}
           <button
-            onClick={() => navigate({ to: "/" })}
+            onClick={handleLogout}
             className="mt-4 flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-white/60 hover:bg-white/10 hover:text-white"
           >
             <LOGOUT_ITEM.icon className="h-4 w-4" /> Logout
@@ -106,11 +123,11 @@ export function DashboardShell({ role, children }: { role: RoleKey; children: Re
             </button>
             <div className="flex items-center gap-2 rounded-md bg-white/5 px-2 py-1.5">
               <div className={`grid h-7 w-7 place-items-center rounded-full bg-gradient-to-br ${cfg.accent} text-[11px] font-bold`}>
-                {cfg.label[0]}
+                {(user?.name ?? cfg.label)[0]}
               </div>
               <div className="hidden text-left sm:block">
-                <div className="text-xs font-semibold leading-tight">Demo {cfg.label}</div>
-                <div className="text-[10px] text-white/50 leading-tight">{cfg.label.toLowerCase()}@forge.edu</div>
+                <div className="text-xs font-semibold leading-tight">{user?.name ?? `Demo ${cfg.label}`}</div>
+                <div className="text-[10px] text-white/50 leading-tight font-mono">{user?.forgeId ?? `${cfg.label.toLowerCase()}@forge.edu`}</div>
               </div>
               <ChevronDown className="h-3 w-3 text-white/50" />
             </div>
