@@ -486,6 +486,194 @@ function StudentEvents() {
 }
 
 /* ============================================================
+   LEADERSHIP (Student view & Staff management)
+   ============================================================ */
+const POSITIVE = [
+  { code: "P1", label: "Helping Others", pts: 50 },
+  { code: "P2", label: "Best Prototype", pts: 40 },
+  { code: "P3", label: "Competition Winner", pts: 30 },
+  { code: "P4", label: "Project Champion", pts: 30 },
+  { code: "P5", label: "Peer Nomination", pts: 20 },
+  { code: "P6", label: "Expert Nomination", pts: 20 },
+  { code: "P7", label: "Self Learning", pts: 10 },
+  { code: "P8", label: "Skill Development", pts: 10 },
+  { code: "P9", label: "Social Media Champion", pts: 10 },
+];
+const NEGATIVE = [
+  { code: "M1", label: "Free Rider", pts: -50 },
+  { code: "M2", label: "Bunker", pts: -50 },
+  { code: "M3", label: "Late Comer", pts: -30 },
+  { code: "M4", label: "Poor Assessment", pts: -30 },
+  { code: "M5", label: "Session Jumping", pts: -30 },
+  { code: "M6", label: "Missed Deadline", pts: -30 },
+  { code: "M7", label: "Leave", pts: -10 },
+  { code: "M8", label: "Workspace Issues", pts: -10 },
+];
+
+const leadershipHistory = [
+  { date: "2026-06-28", code: "P1", label: "Helping Others", pts: 50, by: "Dr. Arjun" },
+  { date: "2026-06-20", code: "P3", label: "Competition Winner", pts: 30, by: "Dr. Meera" },
+  { date: "2026-06-14", code: "M3", label: "Late Comer", pts: -30, by: "Dr. Arjun" },
+  { date: "2026-06-05", code: "P7", label: "Self Learning", pts: 10, by: "Auto" },
+  { date: "2026-05-28", code: "P5", label: "Peer Nomination", pts: 20, by: "Peers" },
+];
+const leadershipGrowth = [
+  { m: "Jan", score: 120 }, { m: "Feb", score: 180 }, { m: "Mar", score: 230 },
+  { m: "Apr", score: 275 }, { m: "May", score: 320 }, { m: "Jun", score: 380 },
+];
+
+function StudentLeadership() {
+  const total = leadershipHistory.reduce((s, h) => s + h.pts, 0) + 300;
+  const level = total > 400 ? "Gold" : total > 250 ? "Silver" : "Bronze";
+  return (
+    <>
+      <PageHeader title="Leadership" subtitle="Your leadership score, activities & growth." />
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <StatCard icon={Flame} label="Leadership Score" value={total} accent="primary" trend={`Level: ${level}`} />
+        <StatCard icon={ThumbsUp} label="Positive Actions" value={leadershipHistory.filter((h) => h.pts > 0).length} accent="gold" />
+        <StatCard icon={ThumbsDown} label="Deductions" value={leadershipHistory.filter((h) => h.pts < 0).length} accent="secondary" />
+        <StatCard icon={Trophy} label="Badges" value="4" accent="white" />
+      </div>
+
+      <div className="mt-6 grid gap-6 lg:grid-cols-2">
+        <Panel title="Leadership Growth">
+          <div className="h-64">
+            <ResponsiveContainer>
+              <AreaChart data={leadershipGrowth}>
+                <defs>
+                  <linearGradient id="lg" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor={ORANGE} stopOpacity={0.7} />
+                    <stop offset="100%" stopColor={ORANGE} stopOpacity={0.05} />
+                  </linearGradient>
+                </defs>
+                <CartesianGrid stroke={GRID} />
+                <XAxis dataKey="m" stroke={AXIS} />
+                <YAxis stroke={AXIS} />
+                <Tooltip {...tooltipStyle} />
+                <Area type="monotone" dataKey="score" stroke={ORANGE} fill="url(#lg)" strokeWidth={2} />
+              </AreaChart>
+            </ResponsiveContainer>
+          </div>
+        </Panel>
+        <Panel title="Badges">
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+            {["Helper", "Innovator", "Consistent", "Winner"].map((b) => (
+              <div key={b} className="rounded-xl bg-white/5 p-4 text-center">
+                <div className="mx-auto grid h-12 w-12 place-items-center rounded-full bg-gradient-to-br from-[var(--dsh-primary)] to-[var(--dsh-gold)]">
+                  <Medal className="h-5 w-5 text-white" />
+                </div>
+                <div className="mt-2 text-xs font-bold">{b}</div>
+              </div>
+            ))}
+          </div>
+        </Panel>
+      </div>
+
+      <div className="mt-6 grid gap-6 lg:grid-cols-2">
+        <Panel title="Positive Activities" subtitle="Earn points">
+          <ul className="space-y-2">
+            {POSITIVE.map((p) => (
+              <li key={p.code} className="flex items-center justify-between rounded-lg bg-white/5 px-3 py-2 text-sm">
+                <span><span className="font-mono text-xs text-white/50 mr-2">{p.code}</span>{p.label}</span>
+                <Chip tone="success">+{p.pts}</Chip>
+              </li>
+            ))}
+          </ul>
+        </Panel>
+        <Panel title="Negative Activities" subtitle="Avoid deductions">
+          <ul className="space-y-2">
+            {NEGATIVE.map((p) => (
+              <li key={p.code} className="flex items-center justify-between rounded-lg bg-white/5 px-3 py-2 text-sm">
+                <span><span className="font-mono text-xs text-white/50 mr-2">{p.code}</span>{p.label}</span>
+                <Chip tone="danger">{p.pts}</Chip>
+              </li>
+            ))}
+          </ul>
+        </Panel>
+      </div>
+
+      <div className="mt-6">
+        <Panel title="Point History">
+          <TableShell>
+            <thead><tr><Th>Date</Th><Th>Code</Th><Th>Activity</Th><Th>Points</Th><Th>Awarded By</Th></tr></thead>
+            <tbody>
+              {leadershipHistory.map((h, i) => (
+                <tr key={i}>
+                  <Td>{h.date}</Td>
+                  <Td className="font-mono">{h.code}</Td>
+                  <Td>{h.label}</Td>
+                  <Td><Chip tone={h.pts > 0 ? "success" : "danger"}>{h.pts > 0 ? `+${h.pts}` : h.pts}</Chip></Td>
+                  <Td>{h.by}</Td>
+                </tr>
+              ))}
+            </tbody>
+          </TableShell>
+        </Panel>
+      </div>
+    </>
+  );
+}
+
+function StaffLeadership() {
+  return (
+    <>
+      <PageHeader
+        title="Leadership Management"
+        subtitle="Award positive or deduct negative points for any student."
+      />
+      <div className="grid gap-6 lg:grid-cols-3">
+        <Panel title="Award Points">
+          <div className="space-y-3">
+            <label className="block text-xs font-semibold uppercase tracking-wider text-white/60">Student</label>
+            <select className="w-full rounded-md bg-white/5 px-3 py-2 text-sm outline-none">
+              {studentsList.map((s) => <option key={s.id}>{s.id} · {s.name}</option>)}
+            </select>
+            <label className="block text-xs font-semibold uppercase tracking-wider text-white/60">Category</label>
+            <select className="w-full rounded-md bg-white/5 px-3 py-2 text-sm outline-none">
+              <optgroup label="Positive">
+                {POSITIVE.map((p) => <option key={p.code}>{p.code} · {p.label} (+{p.pts})</option>)}
+              </optgroup>
+              <optgroup label="Negative">
+                {NEGATIVE.map((p) => <option key={p.code}>{p.code} · {p.label} ({p.pts})</option>)}
+              </optgroup>
+            </select>
+            <textarea placeholder="Remarks (optional)" rows={3} className="w-full rounded-md bg-white/5 px-3 py-2 text-sm outline-none" />
+            <div className="flex gap-2">
+              <button className="flex-1 rounded-md bg-emerald-500/80 py-2 text-xs font-semibold text-white"><ThumbsUp className="inline h-3.5 w-3.5 mr-1" /> Award</button>
+              <button className="flex-1 rounded-md bg-red-500/80 py-2 text-xs font-semibold text-white"><ThumbsDown className="inline h-3.5 w-3.5 mr-1" /> Deduct</button>
+            </div>
+          </div>
+        </Panel>
+
+        <div className="lg:col-span-2 space-y-6">
+          <div className="grid gap-4 sm:grid-cols-3">
+            <StatCard icon={Flame} label="Avg Score" value="312" accent="primary" />
+            <StatCard icon={ThumbsUp} label="Points Awarded" value="1,240" accent="gold" />
+            <StatCard icon={ShieldAlert} label="Deductions" value="180" accent="secondary" />
+          </div>
+          <Panel title="Recent Actions">
+            <TableShell>
+              <thead><tr><Th>Student</Th><Th>Code</Th><Th>Activity</Th><Th>Points</Th><Th>By</Th></tr></thead>
+              <tbody>
+                {leadershipHistory.map((h, i) => (
+                  <tr key={i}>
+                    <Td>{studentsList[i % studentsList.length].name}</Td>
+                    <Td className="font-mono">{h.code}</Td>
+                    <Td>{h.label}</Td>
+                    <Td><Chip tone={h.pts > 0 ? "success" : "danger"}>{h.pts > 0 ? `+${h.pts}` : h.pts}</Chip></Td>
+                    <Td>{h.by}</Td>
+                  </tr>
+                ))}
+              </tbody>
+            </TableShell>
+          </Panel>
+        </div>
+      </div>
+    </>
+  );
+}
+
+/* ============================================================
    STAFF PAGES
    ============================================================ */
 function StaffHome() {
