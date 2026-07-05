@@ -23,6 +23,8 @@ import { Navbar } from "@/components/site/Navbar";
 import { Footer } from "@/components/site/Footer";
 import heroImg from "@/assets/hero-forge.jpg";
 import aboutImg from "@/assets/about-building.jpg";
+import forgeSymbol from "@/assets/forge-symbol.png.asset.json";
+
 import { ROLE_LIST } from "@/lib/roles";
 import { Quote, Sparkles, MousePointerClick, UserPlus, Zap } from "lucide-react";
 
