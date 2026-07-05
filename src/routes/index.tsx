@@ -23,6 +23,8 @@ import { Navbar } from "@/components/site/Navbar";
 import { Footer } from "@/components/site/Footer";
 import heroImg from "@/assets/hero-forge.jpg";
 import aboutImg from "@/assets/about-building.jpg";
+import forgeSymbol from "@/assets/forge-symbol.png.asset.json";
+
 import { ROLE_LIST } from "@/lib/roles";
 import { Quote, Sparkles, MousePointerClick, UserPlus, Zap } from "lucide-react";
 
@@ -130,11 +132,8 @@ const features = [
   },
 ];
 
-const aboutPillars = [
-  { icon: Rocket, title: "Innovation Driven", body: "Encouraging new ideas" },
-  { icon: BadgeCheck, title: "Future Ready", body: "Preparing leaders of tomorrow" },
-  { icon: Users, title: "Stronger Together", body: "A community that grows together" },
-];
+// (Removed "Innovation Driven / Future Ready / Stronger Together" overlay box per request)
+
 
 const benefits = [
   { icon: UserRound, title: "Personalized Dashboard", body: "Get a customized view of your progress." },
@@ -192,7 +191,18 @@ function Landing() {
               </Link>
             </div>
           </div>
+
+          {/* Animated FORGE symbol — right column of hero */}
+          <div className="relative hidden items-center justify-center lg:flex">
+            <div className="absolute inset-0 -z-10 mx-auto my-auto h-80 w-80 rounded-full bg-primary/20 blur-3xl" />
+            <img
+              src={forgeSymbol.url}
+              alt="FORGE arrow symbol"
+              className="float-slow h-[380px] w-auto drop-shadow-[0_25px_60px_rgba(241,90,34,0.45)]"
+            />
+          </div>
         </div>
+
 
         {/* Stats strip */}
         <div className="relative mx-auto max-w-7xl px-6 pb-16">
@@ -383,22 +393,10 @@ function Landing() {
               loading="lazy"
               className="h-[420px] w-full object-cover"
             />
-            <div className="absolute right-6 top-1/2 w-64 -translate-y-1/2 space-y-3 rounded-xl bg-ink/90 p-5 text-ink-foreground backdrop-blur">
-              {aboutPillars.map((p) => (
-                <div key={p.title} className="flex items-start gap-3">
-                  <div className="grid h-9 w-9 shrink-0 place-items-center rounded-md bg-primary/15 text-primary">
-                    <p.icon className="h-4 w-4" />
-                  </div>
-                  <div className="min-w-0">
-                    <div className="text-sm font-semibold">{p.title}</div>
-                    <div className="text-xs text-white/60">{p.body}</div>
-                  </div>
-                </div>
-              ))}
-            </div>
           </div>
         </div>
       </section>
+
 
       {/* BENEFITS */}
       <section className="bg-background pb-20">
