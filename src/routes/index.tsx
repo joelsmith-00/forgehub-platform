@@ -380,19 +380,8 @@ function Landing() {
               loading="lazy"
               className="h-[420px] w-full object-cover"
             />
-            <div className="absolute right-6 top-1/2 w-64 -translate-y-1/2 space-y-3 rounded-xl bg-ink/90 p-5 text-ink-foreground backdrop-blur">
-              {aboutPillars.map((p) => (
-                <div key={p.title} className="flex items-start gap-3">
-                  <div className="grid h-9 w-9 shrink-0 place-items-center rounded-md bg-primary/15 text-primary">
-                    <p.icon className="h-4 w-4" />
-                  </div>
-                  <div className="min-w-0">
-                    <div className="text-sm font-semibold">{p.title}</div>
-                    <div className="text-xs text-white/60">{p.body}</div>
-                  </div>
-                </div>
-              ))}
-            </div>
+          </div>
+
           </div>
         </div>
       </section>
