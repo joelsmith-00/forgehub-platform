@@ -17,6 +17,8 @@ export function DashboardShell({ role, children }: { role: RoleKey; children: Re
   const nav = DASHBOARD_NAV[role];
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
+  const mainRef = useRef<HTMLElement | null>(null);
+
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const user = useAuth();
 
