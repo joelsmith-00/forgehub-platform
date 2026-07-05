@@ -130,11 +130,8 @@ const features = [
   },
 ];
 
-const aboutPillars = [
-  { icon: Rocket, title: "Innovation Driven", body: "Encouraging new ideas" },
-  { icon: BadgeCheck, title: "Future Ready", body: "Preparing leaders of tomorrow" },
-  { icon: Users, title: "Stronger Together", body: "A community that grows together" },
-];
+// (Removed "Innovation Driven / Future Ready / Stronger Together" overlay box per request)
+
 
 const benefits = [
   { icon: UserRound, title: "Personalized Dashboard", body: "Get a customized view of your progress." },
