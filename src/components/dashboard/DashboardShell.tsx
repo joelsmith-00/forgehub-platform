@@ -20,16 +20,17 @@ export function DashboardShell({ role, children }: { role: RoleKey; children: Re
   const mainRef = useRef<HTMLElement | null>(null);
 
   const pathname = useRouterState({ select: (s) => s.location.pathname });
-  const user = useAuth();
+  const { user, loading } = useAuth();
 
   useEffect(() => {
+    if (loading) return; // wait for localStorage hydration before guarding
     if (user === null) {
-      // no session — send to role login
       navigate({ to: "/login/$role", params: { role } });
-    } else if (user && user.role !== role) {
+    } else if (user.role !== role) {
       navigate({ to: "/dashboard/$role", params: { role: user.role } });
     }
-  }, [user, role, navigate]);
+  }, [user, loading, role, navigate]);
+
 
   // Global click delegation: every <button> inside the dashboard main gets a
   // responsive toast unless it opts out via data-silent. Buttons can customise
