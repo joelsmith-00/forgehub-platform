@@ -191,7 +191,18 @@ function Landing() {
               </Link>
             </div>
           </div>
+
+          {/* Animated FORGE symbol — right column of hero */}
+          <div className="relative hidden items-center justify-center lg:flex">
+            <div className="absolute inset-0 -z-10 mx-auto my-auto h-80 w-80 rounded-full bg-primary/20 blur-3xl" />
+            <img
+              src={forgeSymbol.url}
+              alt="FORGE arrow symbol"
+              className="float-slow h-[380px] w-auto drop-shadow-[0_25px_60px_rgba(241,90,34,0.45)]"
+            />
+          </div>
         </div>
+
 
         {/* Stats strip */}
         <div className="relative mx-auto max-w-7xl px-6 pb-16">
