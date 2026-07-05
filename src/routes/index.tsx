@@ -381,10 +381,9 @@ function Landing() {
               className="h-[420px] w-full object-cover"
             />
           </div>
-
-          </div>
         </div>
       </section>
+
 
       {/* BENEFITS */}
       <section className="bg-background pb-20">
