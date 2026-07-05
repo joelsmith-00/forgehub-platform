@@ -136,8 +136,9 @@ export function DashboardShell({ role, children }: { role: RoleKey; children: Re
           </div>
         </header>
 
-        <main className="px-4 py-6 sm:px-6 lg:px-8">{children}</main>
+        <main ref={mainRef} className="px-4 py-6 sm:px-6 lg:px-8">{children}</main>
       </div>
+
     </div>
   );
 }
