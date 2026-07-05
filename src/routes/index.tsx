@@ -100,8 +100,10 @@ const benefits = [
 ];
 
 function Landing() {
+  useLandingReveals();
   return (
     <div className="min-h-screen bg-background">
+
       {/* HERO */}
       <section className="relative overflow-hidden bg-ink text-ink-foreground">
         <Navbar />
