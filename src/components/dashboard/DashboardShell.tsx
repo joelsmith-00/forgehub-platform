@@ -1,6 +1,8 @@
 import { Link, useRouterState, useNavigate } from "@tanstack/react-router";
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
+import { toast } from "sonner";
 import { Menu, X, Search, Bell, ChevronDown } from "lucide-react";
+
 import { ROLES, type RoleKey } from "@/lib/roles";
 import { DASHBOARD_NAV, LOGOUT_ITEM } from "@/lib/dashboard-nav";
 import forgeLogo from "@/assets/forge-logo.asset.json";
@@ -15,6 +17,8 @@ export function DashboardShell({ role, children }: { role: RoleKey; children: Re
   const nav = DASHBOARD_NAV[role];
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
+  const mainRef = useRef<HTMLElement | null>(null);
+
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const user = useAuth();
 
@@ -26,6 +30,33 @@ export function DashboardShell({ role, children }: { role: RoleKey; children: Re
       navigate({ to: "/dashboard/$role", params: { role: user.role } });
     }
   }, [user, role, navigate]);
+
+  // Global click delegation: every <button> inside the dashboard main gets a
+  // responsive toast unless it opts out via data-silent. Buttons can customise
+  // the message with data-action (e.g. data-action="Attendance saved").
+  useEffect(() => {
+    const el = mainRef.current;
+    if (!el) return;
+    const onClick = (e: MouseEvent) => {
+      const target = (e.target as HTMLElement | null)?.closest(
+        "button, [data-action]"
+      ) as HTMLElement | null;
+      if (!target) return;
+      if (target.hasAttribute("data-silent")) return;
+      if (target.getAttribute("type") === "submit") return;
+      // Skip buttons that already have their own React onClick + toast pattern
+      // by opting-in via data-action OR default "Action completed".
+      const msg = target.getAttribute("data-action");
+      const desc = target.getAttribute("data-toast-desc") ?? undefined;
+      const label = (target.textContent || "").trim().slice(0, 40);
+      toast.success(msg || (label ? `${label} ✓` : "Action completed"), {
+        description: desc,
+      });
+    };
+    el.addEventListener("click", onClick);
+    return () => el.removeEventListener("click", onClick);
+  }, []);
+
 
   const handleLogout = () => {
     logout();
@@ -134,8 +165,9 @@ export function DashboardShell({ role, children }: { role: RoleKey; children: Re
           </div>
         </header>
 
-        <main className="px-4 py-6 sm:px-6 lg:px-8">{children}</main>
+        <main ref={mainRef} className="px-4 py-6 sm:px-6 lg:px-8">{children}</main>
       </div>
+
     </div>
   );
 }
