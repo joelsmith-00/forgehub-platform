@@ -1,6 +1,8 @@
 import { Link, useRouterState, useNavigate } from "@tanstack/react-router";
-import { useEffect, useState, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
+import { toast } from "sonner";
 import { Menu, X, Search, Bell, ChevronDown } from "lucide-react";
+
 import { ROLES, type RoleKey } from "@/lib/roles";
 import { DASHBOARD_NAV, LOGOUT_ITEM } from "@/lib/dashboard-nav";
 import forgeLogo from "@/assets/forge-logo.asset.json";
