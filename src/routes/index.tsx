@@ -26,6 +26,50 @@ import aboutImg from "@/assets/about-building.jpg";
 import { ROLE_LIST } from "@/lib/roles";
 import { Quote, Sparkles, MousePointerClick, UserPlus, Zap } from "lucide-react";
 
+/** Auto-add reveal animations to every section's headings and grids. */
+function useLandingReveals() {
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const roots = document.querySelectorAll<HTMLElement>("section");
+    const toReveal: HTMLElement[] = [];
+    roots.forEach((section) => {
+      section.querySelectorAll<HTMLElement>(
+        ":scope > div, :scope h1, :scope h2, :scope p"
+      ).forEach((el) => {
+        if (!el.classList.contains("reveal")) {
+          el.classList.add("reveal");
+          toReveal.push(el);
+        }
+      });
+    });
+    if (!("IntersectionObserver" in window)) {
+      toReveal.forEach((el) => el.classList.add("in"));
+      return;
+    }
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            e.target.classList.add("in");
+            io.unobserve(e.target);
+          }
+        });
+      },
+      { threshold: 0.08, rootMargin: "0px 0px -40px 0px" },
+    );
+    toReveal.forEach((el) => io.observe(el));
+    // Immediately reveal above-the-fold elements
+    requestAnimationFrame(() => {
+      toReveal.forEach((el) => {
+        const r = el.getBoundingClientRect();
+        if (r.top < window.innerHeight) el.classList.add("in");
+      });
+    });
+    return () => io.disconnect();
+  }, []);
+}
+
+
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
