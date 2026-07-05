@@ -31,6 +31,33 @@ export function DashboardShell({ role, children }: { role: RoleKey; children: Re
     }
   }, [user, role, navigate]);
 
+  // Global click delegation: every <button> inside the dashboard main gets a
+  // responsive toast unless it opts out via data-silent. Buttons can customise
+  // the message with data-action (e.g. data-action="Attendance saved").
+  useEffect(() => {
+    const el = mainRef.current;
+    if (!el) return;
+    const onClick = (e: MouseEvent) => {
+      const target = (e.target as HTMLElement | null)?.closest(
+        "button, [data-action]"
+      ) as HTMLElement | null;
+      if (!target) return;
+      if (target.hasAttribute("data-silent")) return;
+      if (target.getAttribute("type") === "submit") return;
+      // Skip buttons that already have their own React onClick + toast pattern
+      // by opting-in via data-action OR default "Action completed".
+      const msg = target.getAttribute("data-action");
+      const desc = target.getAttribute("data-toast-desc") ?? undefined;
+      const label = (target.textContent || "").trim().slice(0, 40);
+      toast.success(msg || (label ? `${label} ✓` : "Action completed"), {
+        description: desc,
+      });
+    };
+    el.addEventListener("click", onClick);
+    return () => el.removeEventListener("click", onClick);
+  }, []);
+
+
   const handleLogout = () => {
     logout();
     navigate({ to: "/login/$role", params: { role } });
